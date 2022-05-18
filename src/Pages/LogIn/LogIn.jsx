@@ -1,18 +1,35 @@
 import React from 'react';
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
+import Loading from '../Shared/Loading';
 
 const LogIn = () => {
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
 
-    if (user) {
-        console.log(user);
+    let logInError;
+    if (error || gError) {
+        logInError = <p className='text-red-500'>{error?.message || gError?.message}</p>
+    }
+
+    if (loading || gLoading) {
+        return <Loading></Loading>
+    }
+
+    if (gUser || user) {
+        console.log(gUser);
     }
 
     const onSubmit = data => {
-        console.log(data)
+        console.log(data);
+        signInWithEmailAndPassword(data.email, data.password);
     };
 
     return (
@@ -69,7 +86,7 @@ const LogIn = () => {
                                 {/* {errors.email?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.email.message}</span>} */}
                             </label>
                         </div>
-
+                        {logInError}
                         <input className='btn w-full max-w-xs' type="submit" value='login' />
                     </form>
                     <div className="divider">OR</div>
