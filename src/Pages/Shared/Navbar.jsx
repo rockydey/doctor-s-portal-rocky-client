@@ -1,7 +1,21 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
+import auth from '../../firebase.init';
+import Loading from './Loading';
 
 const Navbar = () => {
+    const [user, loading, error] = useAuthState(auth);
+    const logout = () => {
+        signOut(auth);
+    };
+    if (loading) {
+        return <Loading></Loading>
+    }
+    if (error) {
+        alert(error?.message);
+    }
     return (
         <div class="navbar bg-base-100">
             <div class="navbar-start">
@@ -15,7 +29,7 @@ const Navbar = () => {
                         <li><Link to='/appointment'>Appointment</Link></li>
                         <li><Link to='/reviews'>Reviews</Link></li>
                         <li><Link to='/contact'>Contact Us</Link></li>
-                        <li><Link to='/login'>Login</Link></li>
+                        <li>{user ? <button onClick={logout} className='btn btn-ghost'>Sign Out</button> : <Link to='/login'>Login</Link>}</li>
                     </ul>
                 </div>
                 <Link to='/' class="btn btn-ghost normal-case text-xl">Doctor's Portal</Link>
@@ -27,7 +41,7 @@ const Navbar = () => {
                     <li><Link to='/appointment'>Appointment</Link></li>
                     <li><Link to='/reviews'>Reviews</Link></li>
                     <li><Link to='/contact'>Contact Us</Link></li>
-                    <li><Link to='/login'>Login</Link></li>
+                    <li>{user ? <button onClick={logout} className='btn btn-ghost'>Sign Out</button> : <Link to='/login'>Login</Link>}</li>
                 </ul>
             </div>
         </div>
