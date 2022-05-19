@@ -55,16 +55,11 @@ const SignUp = () => {
                                     required: {
                                         value: true,
                                         message: "Name is required"
-                                    },
-                                    // pattern: {
-                                    //     value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                                    //     message: "Provide a valid Email"
-                                    // }
+                                    }
                                 })}
                             />
                             <label class="label">
                                 {errors.name?.type === 'required' && <span class="label-text-alt text-red-500">{errors.name.message}</span>}
-                                {/* {errors.email?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.email.message}</span>} */}
                             </label>
                         </div>
                         <div class="form-control w-full max-w-xs">
@@ -118,7 +113,7 @@ const SignUp = () => {
                         {signUpError}
                         <input className='btn w-full max-w-xs' type="submit" value='Signup' />
                     </form>
-                    <p className='text-sm'>Already have an account? <Link className='text-secondary' to='/login'>Login Now</Link></p>
+                    <p className='text-sm'>Already have an account? <Link className='text-green-500' to='/login'>Login Now</Link></p>
                     <div className="divider">OR</div>
                     <button onClick={() => signInWithGoogle()} className="btn btn-outline">Continue with Google</button>
                 </div>
