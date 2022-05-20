@@ -22,7 +22,7 @@ const useToken = user => {
                 });
         }
     }, [user]);
-    return token;
+    return [token];
 };
 
 export default useToken;
